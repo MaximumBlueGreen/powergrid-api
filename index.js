@@ -30,7 +30,7 @@ usersRouter.get('/me', tokenChecker, (req, res) => {
   }).then(res.json.bind(res))
 });
 
-usersRouter.delete('/me', (req, res) => {
+usersRouter.delete('/me', tokenChecker, (req, res) => {
   const userId = req.user_id;
   knex('t_users').where({
     id: userId
