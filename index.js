@@ -9,15 +9,25 @@ app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(process.env.PORT || port, () => console.log(`Example app listening on port ${port}!`))
 
+var knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host : 'ec2-23-21-192-179.compute-1.amazonaws.com',
+    user : 'gsybanrnnwfhvn',
+    password : 'e820b72a3813ab8f88150d755f13e2607a065df1da7e72e7a008771ef8a7bd70',
+    database : 'dfducnfo41hui8',
+    ssl: true,
+  }
+});
+
 var usersRouter = express.Router()
 
 usersRouter.get('/me', tokenChecker, (req, res) => {
-  res.json({
-    handle: "John",
-    email: "john.westwig@gmail.com",
-    name: "John Westwig",
-    user_id: req.user_id,
-  });
+  const userId = req.user_id;
+
+  knex('t_users').where({
+    id: userId
+  }).then(res.json.bind(res))
 });
 
 usersRouter.delete('/me', (req, res) => {

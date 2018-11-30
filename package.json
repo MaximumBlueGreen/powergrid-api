@@ -19,6 +19,8 @@
   "homepage": "https://github.com/MaximumBlueGreen/powergrid-api#readme",
   "dependencies": {
     "express": "^4.16.4",
-    "jsonwebtoken": "^8.4.0"
+    "jsonwebtoken": "^8.4.0",
+    "knex": "^0.15.2",
+    "pg": "^7.7.1"
   }
 }
