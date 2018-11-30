@@ -31,7 +31,16 @@ usersRouter.get('/me', tokenChecker, (req, res) => {
 });
 
 usersRouter.delete('/me', (req, res) => {
-	res.send(200);
+  const userId = req.user_id;
+  knex('t_users').where({
+    id: userId
+  }).del().then(numRows => {
+    if (numRows == 1) {
+      res.send(200);
+    } else {
+      res.send(500);
+    }
+  })
 });
 
 usersRouter.post('/me/authenticationToken', (req, res) => {
