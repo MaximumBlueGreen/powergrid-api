@@ -16,4 +16,9 @@ usersRouter.get('/me', (req, res) => {
   });
 });
 
+usersRouter.delete('/me', (req, res) => {
+	res.send(200);
+});
+
 app.use('/users', usersRouter)
+
