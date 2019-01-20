@@ -5,20 +5,13 @@ const port = 3000
 const tokenChecker = require('./token');
 const jwt = require('jsonwebtoken');
 
+require('dotenv').config()
+
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(process.env.PORT || port, () => console.log(`Example app listening on port ${port}!`))
 
-var knex = require('knex')({
-  client: 'pg',
-  connection: {
-    host : 'ec2-23-21-192-179.compute-1.amazonaws.com',
-    user : 'gsybanrnnwfhvn',
-    password : 'e820b72a3813ab8f88150d755f13e2607a065df1da7e72e7a008771ef8a7bd70',
-    database : 'dfducnfo41hui8',
-    ssl: true,
-  }
-});
+var knex = require('knex')(require('./knexfile'));
 
 var usersRouter = express.Router()
 
@@ -46,7 +39,7 @@ usersRouter.delete('/me', tokenChecker, (req, res) => {
 usersRouter.post('/me/authenticationToken', (req, res) => {
   res.json({
     token: jwt.sign({
-        id: 123
+        id: 321
     }, "SECRETSANTA", {
         expiresIn: '24h'
     })
