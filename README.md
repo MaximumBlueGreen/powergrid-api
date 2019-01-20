@@ -1,4 +1,16 @@
 # powergrid-api
 API for PowerGrid
 
-Test force-pushing to master 
+## Running locally
+### Get the code
+`git clone https://github.com/MaximumBlueGreen/powergrid-api.git`
+### Install dependencies
+`npm install`
+### Initialize your local environment
+`.local.env` is provided as a starting point for your local configuration.  Copy this to `.env`.
+### Create a database
+Run a PostgreSQL instance on your machine (https://postgresapp.com is a popular choice).  Replace the `DATABASE_URL` environment variable in `.env` with your local connection string.  On the command line, run `knex migrate:latest` to initialize the schema and populate the database with seed data.
+### Start the API server
+`node start` should do the trick!
+### See it work!
+All API routes will be available at http://localhost:3000/
