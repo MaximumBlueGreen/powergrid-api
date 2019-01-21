@@ -1,2 +1,2 @@
-web: node index.js
 release: knex migrate:latest
+web: node index.js
