@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const port = 3000
 
 const tokenChecker = require('./token');
 const jwt = require('jsonwebtoken');
@@ -9,7 +8,7 @@ require('dotenv').config()
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.listen(process.env.PORT || port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(process.env.PORT)
 
 var knex = require('knex')(require('./knexfile'));
 
