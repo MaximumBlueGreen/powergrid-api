@@ -65,5 +65,6 @@ exports.down = function(knex, Promise) {
     .dropTable('t_entries')
     .dropTable('t_clues_publishers')
     .dropTable('t_clues')
-    .dropTable('t_users');
+    .dropTable('t_users')
+    .raw('DROP TYPE permission_level');
 };
