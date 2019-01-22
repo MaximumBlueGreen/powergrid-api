@@ -1,4 +1,4 @@
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
 	return knex.schema
 		.createTable("t_users", function (table) {
 			table.increments();
@@ -57,7 +57,7 @@ exports.up = function(knex, Promise) {
 		});
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
 	/* Drop tables in reverse order of creation to prevent reference errors */
 	return knex.schema
 		.dropTable("t_puzzles_permissions")
