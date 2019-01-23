@@ -1,0 +1,9 @@
+language: node_js
+deploy:
+  provider: heroku
+  api_key:
+    secure: XL65RMSA4fWrNCKVJBA43zTJbM5EK/xic3QqBmkcFXkg2OiNuN1QEPoIqwQnrTzWo98VP4f4NqX8+VkJMsKblfta9ccuBUfRYMde0KXC0xvUaBg2T73aokZlLVat5glP4kSztJVFwwG1k4/lno1dFRt97z0QnNV3mjCfivYCf8b0a0JII8L6ZqXLm0I43h+kSARa5g++yjphIVCb0WVnTsuyJIaY7bTwIrIUElgHrr6VAtdOwJbPbfYyrAwBwz+o2hX08L2CqcZddyHBWI/y5KKKM7ftyXVEAy8tcRuQLVO8KOtaEt4HqEMxeRF5X/7jp8v+fmBAB+UFH4yoewiF9HTyb/H1J3b0Q6rQCbBJ+g0CN7anwn/CtQ+Pd6V96yvFCblYSZYo8sS031q9s2ze0aEgm5J70qeeAChyCk2Qx+U/1iXI4Pw43+JcdKE+9dsYG6PKQLftcD7a/QXtFW4PzldsGkIo4SHYZJp6QFj7zR90G3hReEN6+2jBK/tK9B5NNZAuPPWG22oTVk3Y6rHTLYdU3JusW96+ZGxyyCS9Vs1e3uXCI0TsScaNa37ywW80IPP0uRMvugyRY9sOogkUUZn4Xh0htxrRyWyXkLpYIAGwlgM4aWn6W5fjQEZ2C028mlrLg7LNwyC0aXyit1UwW7VMNfalLFrxy3uC9zUN2+I=
+  app: powergrid-app
+  on:
+    repo: MaximumBlueGreen/powergrid-api
+    branch: develop
