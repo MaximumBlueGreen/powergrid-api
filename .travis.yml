@@ -12,7 +12,7 @@ deploy:
 services:
   - postgresql
 before_script:
-  - psql -c 'create database powergrid_travis;' -U postgres
+  - psql -c "create database powergrid_travis;" -U postgres
   - knex migrate:latest
 env:
-  - DATABASE_URL=postgresql://postgres/powergrid_travis
+  - DATABASE_URL=postgres://localhost/powergrid_travis
