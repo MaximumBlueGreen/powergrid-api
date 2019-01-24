@@ -4,30 +4,41 @@ const router = express.Router();
 
 module.exports = function (knex) {
 	router.get("/me", authentication.authenticate, (req, res) => {
-		const userId = req.user_id;
-
-		knex("t_users").where({
-			id: userId
-		}).then(res.json.bind(res));
+		knex("t_users")
+			.where({ id: req.user_id })
+			.first()
+			.then(user => {
+				if (user) {
+					res.json(user);
+				} else {
+					res.sendStatus(404);
+				}
+			});
 	});
 
-	router.delete("/me", authentication.authenticate, (req, res) => {
-		const userId = req.user_id;
-		knex("t_users").where({
-			id: userId
-		}).del().then(numRows => {
-			if (numRows == 1) {
-				res.send(200);
-			} else {
-				res.send(500);
-			}
-		});
+	router.post("/me", (req, res) => {
+		knex("t_users")
+			.insert({
+				email: req.body.email,
+				handle: req.body.handle,
+				name: req.body.name,
+			})
+			.then(() => res.sendStatus(201));
 	});
 
 	router.post("/me/authenticationToken", (req, res) => {
-		res.json({
-			token: authentication.generate({id: 321})
-		});
+		knex("t_users")
+			.where({ email: req.body.email })
+			.first()
+			.then(user => {
+				if (user) {
+					res.json({
+						token: authentication.generate({ id: user.id })
+					});
+				} else {
+					res.sendStatus(404);
+				}
+			});
 	});
 
 	return router;
