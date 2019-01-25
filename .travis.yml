@@ -16,3 +16,6 @@ before_script:
   - knex migrate:latest
 env:
   - DATABASE_URL=postgres://localhost/powergrid_travis
+branches:
+  only:
+    - develop
