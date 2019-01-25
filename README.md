@@ -1,6 +1,8 @@
 # powergrid-api
 API for PowerGrid
 
+[![Build Status](https://travis-ci.com/MaximumBlueGreen/powergrid-api.svg?branch=develop)](https://travis-ci.com/MaximumBlueGreen/powergrid-api)
+
 ## Running locally
 ### Get the code
 `git clone https://github.com/MaximumBlueGreen/powergrid-api.git`
