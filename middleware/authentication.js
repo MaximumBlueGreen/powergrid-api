@@ -1,11 +1,10 @@
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
+
 module.exports = {
 	authenticate: function (req, res, next) {
-	/* Bearer Token */
-	/* Make secret actually secret */
-		var token = (req.body && req.body.token) || (req.query && req.query.token) || req.headers["x-token"];
-		if (token) {
+		if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
+			const token = req.headers.authorization.split(" ")[1];
 			jwt.verify(token, jwtSecret, function (error, decoded) {
 				if (error) {
 					res.end("Token error; " + error, 400);
