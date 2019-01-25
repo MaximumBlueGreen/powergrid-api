@@ -15,8 +15,7 @@ before_script:
   - psql -c "create database powergrid_travis;" -U postgres
   - knex migrate:latest
 env:
-  - NODE_ENV=test
-  - DATABASE_URL=postgres://localhost/powergrid_travis
+  - NODE_ENV=test DATABASE_URL=postgres://localhost/powergrid_travis
 branches:
   only:
     - develop
