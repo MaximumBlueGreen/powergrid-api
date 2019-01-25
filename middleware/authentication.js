@@ -7,14 +7,14 @@ module.exports = {
 			const token = req.headers.authorization.split(" ")[1];
 			jwt.verify(token, jwtSecret, function (error, decoded) {
 				if (error) {
-					res.end("Token error; " + error, 400);
+					res.sendStatus(401);
 				} else {
 					req.user_id = decoded.id;
 					next();
 				}
 			});
 		} else {
-			res.end("No token provided", 400);
+			res.sendStatus(400);
 		}
 	},
 	generate: function (user) {

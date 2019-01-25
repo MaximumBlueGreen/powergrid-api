@@ -4,7 +4,7 @@
   "description": "API for PowerGrid",
   "main": "index.js",
   "scripts": {
-    "test": "eslint .",
+    "test": "mocha tests/users.js --exit",
     "start": "node index.js",
     "lint": "eslint ."
   },
@@ -27,8 +27,10 @@
   },
   "devDependencies": {
     "eslint": "^5.12.1",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "supertest": "^3.4.2"
   },
   "pre-commit": [
     "lint"
