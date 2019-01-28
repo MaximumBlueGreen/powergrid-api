@@ -14,6 +14,9 @@ services:
 before_script:
   - psql -c "create database powergrid_travis;" -U postgres
   - knex migrate:latest
+script:
+  - npm test
+  - npm run lint
 env:
   - NODE_ENV=test DATABASE_URL=postgres://localhost/powergrid_travis
 branches:
