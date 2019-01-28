@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - 9.3.0
+cache: npm
 deploy:
   provider: heroku
   api_key:
