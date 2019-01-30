@@ -49,7 +49,7 @@ exports.up = function(knex) {
 		.createTable("t_puzzles_permissions", function(table) {
 			table.integer("puzzle_id").unsigned().notNullable();
 			table.integer("user_id").unsigned().notNullable();
-			table.enu("permission_level", ["NONE", "COMMENT", "EDIT", "READ"], { useNative: true, enumName: "permission_level" }).notNullable().defaultTo("NONE");
+			table.enu("permission_level", ["NONE", "COMMENT", "EDIT", "READ"], { enumName: "permission_level", useNative: true }).notNullable().defaultTo("NONE");
 			table.timestamps();
 
 			table.foreign("puzzle_id").references("t_puzzles.id");

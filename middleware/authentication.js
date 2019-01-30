@@ -19,7 +19,7 @@ module.exports = {
 	},
 	generate: function (user) {
 		return jwt.sign(user, jwtSecret, {
-			expiresIn: "24h"
+			expiresIn: "24h",
 		});
-	}
+	},
 };

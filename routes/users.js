@@ -33,7 +33,7 @@ module.exports = function (knex) {
 			.then(user => {
 				if (user) {
 					res.json({
-						token: authentication.generate({ id: user.id })
+						token: authentication.generate({ id: user.id }),
 					});
 				} else {
 					res.sendStatus(404);
