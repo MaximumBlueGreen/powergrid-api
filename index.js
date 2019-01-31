@@ -9,5 +9,6 @@ app.listen(process.env.PORT);
 app.use(express.json());
 app.get("/", (req, res) => res.send("Hello World!"));
 app.use("/users", require("./routes/users")(knex));
+app.use("/puzzles", require("./routes/puzzles")(knex));
 
 module.exports = { app, knex };

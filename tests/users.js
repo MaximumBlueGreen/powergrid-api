@@ -29,3 +29,14 @@ describe("GET /users/me", function () {
 			.expect(200, done);
 	});
 });
+
+describe("POST /puzzles/", function () {
+	it("", function (done) {
+		request(app)
+			.post("/puzzles/")
+			.set("Accept", "application/json")
+			.set("Authorization", `Bearer ${token}`)
+			.send({ puzzle: "this is a great crossword" })
+			.expect(200, done);
+	});
+});
