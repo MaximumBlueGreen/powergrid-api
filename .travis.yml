@@ -19,7 +19,7 @@ script:
   - npm test
   - npm run lint
 env:
-  - NODE_ENV=test DATABASE_URL=postgres://localhost/powergrid_travis
+  - NODE_ENV=test DATABASE_URL=postgres://localhost/powergrid_travis JWT_SECRET=SECRETSANTA
 branches:
   only:
     - develop
