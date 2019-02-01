@@ -13,7 +13,7 @@ beforeEach(() => knex.migrate.rollback()
 	.then(() =>
 		request(app)
 			.post("/users/me/authenticationToken")
-			.send({ email: "foo@foo.com" })
+			.send({ email: "foo@foo.com", password: "powergrid" })
 			.then(res => {
 				token = res.body.token;
 			})
