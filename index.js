@@ -10,5 +10,8 @@ app.use(express.json());
 app.get("/", (req, res) => res.send("Hello World!"));
 app.use("/users", require("./routes/users")(knex));
 app.use("/puzzles", require("./routes/puzzles")(knex));
+app.use("/clues", require("./routes/clues")(knex));
+app.use("/entries", require("./routes/entries")(knex));
+
 
 module.exports = { app, knex };
