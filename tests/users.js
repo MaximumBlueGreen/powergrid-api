@@ -5,35 +5,39 @@ if (process.env.NODE_ENV != "test") {
 	process.exit(1);
 }
 
-let token, token2;
+let token_list = [];
+const user_list = [
+	{ email: "foo@foo.com", password: "powergrid" },
+	{ email: "bar@bar.com", password: "powergrid" },
+];
 
 beforeEach(() => knex.migrate.rollback()
 	.then(() => knex.migrate.latest())
 	.then(() => knex.seed.run())
-	.then(() =>
-		request(app)
-			.post("/users/me/authenticationToken")
-			.send({ email: "foo@foo.com", password: "powergrid" })
-			.then(res => {
-				token = res.body.token;
-			})
-	)
-	.then(() =>
-		request(app)
-			.post("/users/me/authenticationToken")
-			.send({ email: "bar@bar.com", password: "powergrid" })
-			.then(res => {
-				token2 = res.body.token;
-			})
-	)
+	.then(() => {
+		token_list = [];
+		let token_requests = [];
+		for (var i = 0; i < user_list.length; i++) {
+			token_requests.push(
+				request(app)
+					.post("/users/me/authenticationToken")
+					.send(user_list[i])
+					.then(res =>
+						token_list.push(res.body.token)
+					)
+			);
+		}
+		return Promise.all(token_requests);
+	})
 );
+
 
 describe("GET /users/me", function () {
 	it("gets the user", function (done) {
 		request(app)
 			.get("/users/me")
 			.set("Accept", "application/json")
-			.set("Authorization", `Bearer ${token}`)
+			.set("Authorization", `Bearer ${token_list[0]}`)
 			.expect(200, done);
 	});
 });
@@ -43,7 +47,7 @@ describe("POST /puzzles", function () {
 		request(app)
 			.post("/puzzles")
 			.set("Accept", "application/json")
-			.set("Authorization", `Bearer ${token}`)
+			.set("Authorization", `Bearer ${token_list[0]}`)
 			.send({ puzzle: "this is a great crossword" })
 			.expect(200, done);
 	});
@@ -64,7 +68,7 @@ describe("POST /entries", function () {
 		request(app)
 			.post("/entries")
 			.set("Accept", "application/json")
-			.set("Authorization", `Bearer ${token2}`)
+			.set("Authorization", `Bearer ${token_list[1]}`)
 			.send({ entry: "clue", score: 10000 })
 			.expect(200, done);
 	});
