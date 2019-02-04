@@ -16,11 +16,11 @@ beforeEach(() => knex.migrate.rollback()
 	.then(() => knex.seed.run())
 	.then(() =>
 		Promise.all(user_list.map(
-			user =>
+			(user, i) =>
 				request(app)
 					.post("/users/me/authenticationToken")
 					.send(user)
-					.then(res => token_list.push(res.body.token))
+					.then(res => token_list[i] = res.body.token)
 		))
 	)
 );
