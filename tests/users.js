@@ -14,23 +14,16 @@ const user_list = [
 beforeEach(() => knex.migrate.rollback()
 	.then(() => knex.migrate.latest())
 	.then(() => knex.seed.run())
-	.then(() => {
-		token_list = [];
-		let token_requests = [];
-		for (var i = 0; i < user_list.length; i++) {
-			token_requests.push(
+	.then(() =>
+		Promise.all(user_list.map(
+			user =>
 				request(app)
 					.post("/users/me/authenticationToken")
-					.send(user_list[i])
-					.then(res =>
-						token_list.push(res.body.token)
-					)
-			);
-		}
-		return Promise.all(token_requests);
-	})
+					.send(user)
+					.then(res => token_list.push(res.body.token))
+		))
+	)
 );
-
 
 describe("GET /users/me", function () {
 	it("gets the user", function (done) {
