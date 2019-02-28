@@ -17,6 +17,25 @@ module.exports = function (knex) {
 			});
 	});
 
+	// {
+	// 	"squares":[{"value": "A"},{"value": "A"},{"value": "A"},{"value": "A"},{"value": "A"},{"value": "A"},{"value": "A"},{"value": "A"},{"value": "A"}],
+	// 	"size": {
+	// 		"height": 3,
+	// 		"width": 3
+	// 	}
+	// }
+
+	router.get("/me/puzzles", authenticate, (req, res) => {
+		knex("t_puzzles")
+			.where({ creator_id: req.user_id })
+			.then(puzzles => puzzles.map(p => {
+				const newPuzzle = Object.assign(p, JSON.parse(p.puzzle));
+				delete newPuzzle.puzzle;
+				return newPuzzle;
+			}))
+			.then(puzzles => res.json(puzzles));
+	});
+
 	router.post("/", (req, res) => {
 		encrypt(req.body.password)
 			.then(({ hash, salt }) =>
