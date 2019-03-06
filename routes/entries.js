@@ -38,8 +38,9 @@ module.exports = function (knex) {
 
 	router.get("/", authentication.authenticate, (req, res) => {
 		knex("t_entries")
-			.where("entry", "ilike", req.query.pattern)
-			.orderby("score", "desc")
+			.where("entry", "ilike", req.query.pattern || "%")
+			.where({ user_id: req.user_id })
+			.orderBy("score", "desc")
 			.then(entries => {
 				if (entries) {
 					res.json(entries);
