@@ -48,7 +48,7 @@ module.exports = function (knex) {
 						salt,
 					})
 			)
-			.then(() => res.sendStatus(201))
+			.then(() => res.sendStatus(204))
 			.catch(() => res.sendStatus(500));
 	});
 
