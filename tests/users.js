@@ -63,6 +63,6 @@ describe("POST /entries", function () {
 			.set("Accept", "application/json")
 			.set("Authorization", `Bearer ${token_list[1]}`)
 			.send({ entry: "clue", score: 10000 })
-			.expect(200, done);
+			.expect(204, done);
 	});
 });
