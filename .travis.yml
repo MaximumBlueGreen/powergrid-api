@@ -1,25 +1,25 @@
 language: node_js
 node_js:
-  - 9.3.0
+- 9.3.0
 cache: npm
 deploy:
   provider: heroku
   api_key:
-    secure: XL65RMSA4fWrNCKVJBA43zTJbM5EK/xic3QqBmkcFXkg2OiNuN1QEPoIqwQnrTzWo98VP4f4NqX8+VkJMsKblfta9ccuBUfRYMde0KXC0xvUaBg2T73aokZlLVat5glP4kSztJVFwwG1k4/lno1dFRt97z0QnNV3mjCfivYCf8b0a0JII8L6ZqXLm0I43h+kSARa5g++yjphIVCb0WVnTsuyJIaY7bTwIrIUElgHrr6VAtdOwJbPbfYyrAwBwz+o2hX08L2CqcZddyHBWI/y5KKKM7ftyXVEAy8tcRuQLVO8KOtaEt4HqEMxeRF5X/7jp8v+fmBAB+UFH4yoewiF9HTyb/H1J3b0Q6rQCbBJ+g0CN7anwn/CtQ+Pd6V96yvFCblYSZYo8sS031q9s2ze0aEgm5J70qeeAChyCk2Qx+U/1iXI4Pw43+JcdKE+9dsYG6PKQLftcD7a/QXtFW4PzldsGkIo4SHYZJp6QFj7zR90G3hReEN6+2jBK/tK9B5NNZAuPPWG22oTVk3Y6rHTLYdU3JusW96+ZGxyyCS9Vs1e3uXCI0TsScaNa37ywW80IPP0uRMvugyRY9sOogkUUZn4Xh0htxrRyWyXkLpYIAGwlgM4aWn6W5fjQEZ2C028mlrLg7LNwyC0aXyit1UwW7VMNfalLFrxy3uC9zUN2+I=
+    secure: PBBq0k6PSQszxTAKoFmfm6POErzv3rLNjauSOxCKctlPc6UVEktXSTXxODO4WMJojPJPFWJEnRD8IF6382wuYg0sNiGPkNLdRnB/qzDX1YChpeyWkoAO3pA6oXRRogc54ropnYY9oHs1FrGLo27GXL2+BaEKDWd1pIztMeIYa3F/VZBdrQ2YGhIaOwuBaVhCtXybEtirsqK8DYcswIxoThjU9jqUv3ZuURK90uJom3CH63jNlb5tKB6P2qXmzD3iMyvBEAvnwoeR6SONUjvA4bbjiLD0OSDWGGmsQxaP/+TSWsPW5ZLnFr50Lh5T4d6E3RgSOO9ARH6/qzNxPXxJpSTFn6DDSS8fVKxOF49gAMZsf2F2SpsJnS2Mx5QEWvfoFYMEVhOkhvlcUbG5NbHMp1nziBzQvJrkbreO07/zqzKhG2GJUCkJOnlpEhxavq2I8CekR5eAceaHm17nnnZo5yvYvZB2jgUZE8jcfG+MaNMNxlR1/tc1dNA/6L4gJBuVdaIRYWTs1VBS0dvLqeM23uv3J7wNdhsZo3ysbDqHhAuC1lmYhNT0oXZg5YFy0OJHwighr5uuPF5SzavOpKW9kM92UfhDUBfkKAQ7dcpID4LavjD8PphqfWZYeGcRHAox5gR8WuClssfDo3YoA1XRaP0fxaIeFHdv+OITxEm/cuo=
   app: powergrid-app
   on:
     repo: MaximumBlueGreen/powergrid-api
     branch: develop
 services:
-  - postgresql
+- postgresql
 before_script:
-  - psql -c "create database powergrid_travis;" -U postgres
-  - knex migrate:latest
+- psql -c "create database powergrid_travis;" -U postgres
+- knex migrate:latest
 script:
-  - npm test
-  - npm run lint
+- npm test
+- npm run lint
 env:
-  - NODE_ENV=test DATABASE_URL=postgres://localhost/powergrid_travis JWT_SECRET=SECRETSANTA
+- NODE_ENV=test DATABASE_URL=postgres://localhost/powergrid_travis JWT_SECRET=SECRETSANTA
 branches:
   only:
-    - develop
+  - develop
