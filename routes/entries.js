@@ -6,7 +6,7 @@ module.exports = function (knex) {
 	router.post("/", authentication.authenticate, (req, res) => {
 		knex("t_entries")
 			.insert(Object.assign({ user_id: req.user_id }, req.body))
-			.then(() => res.sendStatus(200));
+			.then(() => res.sendStatus(204));
 	});
 
 	router.get("/:id", authentication.authenticate, (req, res) => {
@@ -26,7 +26,7 @@ module.exports = function (knex) {
 		knex("t_entries")
 			.where({ id: req.params.id })
 			.update(req.body)
-			.then(() => res.sendStatus(200));
+			.then(() => res.sendStatus(204));
 	});
 
 	router.delete("/:id", authentication.authenticate, (req, res) => {
