@@ -33,7 +33,7 @@ module.exports = function (knex) {
 		knex("t_entries")
 			.where({ id: req.params.id })
 			.delete()
-			.then(() => res.sendStatus(200));
+			.then(() => res.sendStatus(204));
 	});
 
 	router.get("/", authentication.authenticate, (req, res) => {
