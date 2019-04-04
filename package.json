@@ -23,6 +23,7 @@
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "filereader": "^0.10.3",
     "jsonwebtoken": "^8.4.0",
     "knex": "^0.15.2",
     "pg": "^7.7.1"

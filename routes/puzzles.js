@@ -1,12 +1,31 @@
 const express = require("express");
 const authentication = require("../middleware/authentication");
 const router = express.Router();
+const FileReader = require("filereader");
+// const IncomingForm = require("formidable").IncomingForm;
+// const form = new IncomingForm();
 
 module.exports = function (knex) {
 	router.post("/", authentication.authenticate, (req, res) => {
 		knex("t_puzzles")
 			.insert(Object.assign({ creator_id: req.user_id }, req.body))
 			.then(() => res.sendStatus(204));
+	});
+
+	router.post("/upload", authentication.authenticate, (req, res) => {
+		console.log(req);
+		const fileReader = new FileReader();
+		fileReader.onloadend = () => {
+			const content = fileReader.result;
+			const height = Buffer.from(content.slice(0x2c, 0x2c + 0x01)).readInt8(0); // .readInt8(0);
+			const width = Buffer.from(content.slice(0x2d, 0x2d + 0x01)).readInt8(0);
+			const puzzle = Buffer.from(content.slice(0x34, height * width + 0x34)).toString();
+
+			knex("t_puzzles")
+				.insert(Object.assign({ creator_id: req.user_id }, { size: { height, width } } ))
+				.then(() => res.sendStatus(204));
+		};
+		fileReader.readAsBinaryString(req);
 	});
 
 	router.get("/:id", authentication.authenticate, (req, res) => {
