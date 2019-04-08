@@ -4,9 +4,29 @@ const router = express.Router();
 
 module.exports = function (knex) {
 	router.post("/", authentication.authenticate, (req, res) => {
-		knex("t_puzzles")
-			.insert(Object.assign({ creator_id: req.user_id }, req.body))
-			.then(() => res.sendStatus(204));
+
+		const { puzzle, title, parent_id } = req.body;
+
+		if (req.body.puzzleToCopyId) {
+			knex("t_puzzles")
+				.where({ id: req.body.puzzleToCopyId })
+				.select("puzzle")
+				.first()
+				.then(({ puzzle: puzzleToCopy }) =>
+					knex("t_puzzles").insert({ creator_id: req.user_id, parent_id, puzzle: puzzleToCopy, title }, ["id", "parent_id"])
+				)
+				.then(([{ id, parent_id }]) => {
+					return knex("t_puzzles").where({ id }).update({ parent_id: parent_id || id });
+				})
+				.then(() => res.sendStatus(204));
+		} else {
+			knex("t_puzzles")
+				.insert({ creator_id: req.user_id, parent_id, puzzle, title }, ["id", "parent_id"])
+				.then(([{ id, parent_id }]) => {
+					return knex("t_puzzles").where({ id }).update({ parent_id: parent_id || id });
+				})
+				.then(() => res.sendStatus(204));
+		}
 	});
 
 	router.get("/:id", authentication.authenticate, (req, res) => {

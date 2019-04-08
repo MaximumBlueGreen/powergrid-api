@@ -26,15 +26,15 @@ module.exports = function (knex) {
 	// }
 
 	router.get("/me/puzzles", authenticate, (req, res) => {
-		knex("t_puzzles")
-			.where({ creator_id: req.user_id })
-			.orderBy("updated_at", "desc")
-			.then(puzzles => puzzles.map(p => {
-				const newPuzzle = Object.assign(p, JSON.parse(p.puzzle));
+		knex({ puzzles: "t_puzzles", versions: "t_puzzles" })
+			.where({ "puzzles.creator_id": req.user_id })
+			.orderBy("puzzles.updated_at", "desc")
+			.then(rows => rows.map(row => {
+				const newPuzzle = Object.assign(JSON.parse(row.puzzle), row);
 				delete newPuzzle.puzzle;
 				return newPuzzle;
 			}))
-			.then(puzzles => res.json(puzzles));
+			.then(data => res.json(data));
 	});
 
 	router.post("/", (req, res) => {
