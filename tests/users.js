@@ -42,7 +42,7 @@ describe("POST /puzzles", function () {
 			.set("Accept", "application/json")
 			.set("Authorization", `Bearer ${token_list[0]}`)
 			.send({ puzzle: "this is a great crossword" })
-			.expect(204, done);
+			.expect(201, done);
 	});
 });
 
