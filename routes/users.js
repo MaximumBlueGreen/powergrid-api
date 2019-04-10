@@ -26,9 +26,9 @@ module.exports = function (knex) {
 	// }
 
 	router.get("/me/puzzles", authenticate, (req, res) => {
-		knex({ puzzles: "t_puzzles", versions: "t_puzzles" })
-			.where({ "puzzles.creator_id": req.user_id })
-			.orderBy("puzzles.updated_at", "desc")
+		knex("t_puzzles")
+			.where({ creator_id: req.user_id })
+			.orderBy("updated_at", "desc")
 			.then(rows => rows.map(row => {
 				const newPuzzle = Object.assign(JSON.parse(row.puzzle), row);
 				delete newPuzzle.puzzle;
