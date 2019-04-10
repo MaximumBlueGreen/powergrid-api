@@ -15,17 +15,17 @@ module.exports = function (knex) {
 				.then(({ puzzle: puzzleToCopy }) =>
 					knex("t_puzzles").insert({ creator_id: req.user_id, parent_id, puzzle: puzzleToCopy, title }, ["id", "parent_id"])
 				)
-				.then(([{ id, parent_id }]) => {
+				.tap(([{ id, parent_id }]) => {
 					return knex("t_puzzles").where({ id }).update({ parent_id: parent_id || id });
 				})
-				.then(() => res.sendStatus(204));
+				.then(([{ id }]) => res.json(({ id })).sendStatus(201));
 		} else {
 			knex("t_puzzles")
 				.insert({ creator_id: req.user_id, parent_id, puzzle, title }, ["id", "parent_id"])
-				.then(([{ id, parent_id }]) => {
+				.tap(([{ id, parent_id }]) => {
 					return knex("t_puzzles").where({ id }).update({ parent_id: parent_id || id });
 				})
-				.then(() => res.sendStatus(204));
+				.then(([{ id }]) => res.json({ id }).sendStatus(201));
 		}
 	});
 
