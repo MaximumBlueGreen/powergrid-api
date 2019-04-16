@@ -31,21 +31,14 @@ module.exports = function (knex) {
 
 	router.get("/:id", authentication.authenticate, (req, res) => {
 		knex("t_puzzles")
-			.where({ id: req.params.id })
+			.where({ creator_id: req.user_id, id: req.params.id })
 			.first()
-			.then(puzzle => {
-				if (puzzle) {
-					if (!req.query.format || req.query.format === "POWERGRID") {
-						res.json(puzzle);
-					} else {
-						res.sendStatus(400);
-					}
-				} else {
-					res.sendStatus(404);
-				}
-			}
-
-			);
+			.then(row => {
+				const newPuzzle = Object.assign(JSON.parse(row.puzzle), row);
+				delete newPuzzle.puzzle;
+				return newPuzzle;
+			})
+			.then(data => res.json(data));
 	});
 
 	router.put("/:id", authentication.authenticate, (req, res) => {
