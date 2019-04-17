@@ -1,6 +1,7 @@
 const express = require("express");
 const authentication = require("../middleware/authentication");
 const router = express.Router();
+const Puzzle = require("../models");
 
 module.exports = function (knex) {
 	router.post("/", authentication.authenticate, (req, res) => {
@@ -29,16 +30,30 @@ module.exports = function (knex) {
 		}
 	});
 
+	// router.get("/:id", authentication.authenticate, (req, res) => {
+	// 	knex("t_puzzles")
+	// 		.leftJoin("t_puzzles_permissions", "t_puzzles_permissions.puzzle_id", "t_puzzles.id")
+	// 		.where({ id: req.params.id })
+	// 		.andWhere(builder =>
+	// 			builder
+	// 				.where("t_puzzles_permissions.user_id", req.user_id)
+	// 				.orWhere( "t_puzzles.creator_id", req.user_id)
+	// 		)
+	// 		.first()
+	// 		.then(row => {
+	// 			if (!row) {
+	// 				throw new Error();
+	// 			}
+	// 			const newPuzzle = Object.assign(JSON.parse(row.puzzle), row);
+	// 			delete newPuzzle.puzzle;
+	// 			return newPuzzle;
+	// 		})
+	// 		.then(data => res.json(data))
+	// 		.catch(() => res.sendStatus(404));
+	// });
+
 	router.get("/:id", authentication.authenticate, (req, res) => {
-		knex("t_puzzles")
-			.where({ creator_id: req.user_id, id: req.params.id })
-			.first()
-			.then(row => {
-				const newPuzzle = Object.assign(JSON.parse(row.puzzle), row);
-				delete newPuzzle.puzzle;
-				return newPuzzle;
-			})
-			.then(data => res.json(data));
+		Puzzle.where({ id: req.params.id }).fetch({ withRelated: ["accessors", "creator"] }).then(result => res.json(result));
 	});
 
 	router.put("/:id", authentication.authenticate, (req, res) => {
@@ -61,18 +76,33 @@ module.exports = function (knex) {
 			.where({ puzzle_id: req.params.id })
 			.then(puzzle_permissions => {
 				if (puzzle_permissions) {
-					res.json(puzzle_permissions.user_id);
+					res.json(puzzle_permissions);
 				} else {
 					res.sendStatus(404);
 				}
 			});
 	});
 
-	router.post("/:id/accessors", authentication.authenticate, (req, res) => {
-		knex("t_puzzles_permissions")
-			.where({ puzzle_id: req.params.id })
-			.insert(req.body)
-			.then(() => res.sendStatus(200));
+	router.post("/:id/accessors/:name", authentication.authenticate, (req, res) => {
+		knex("t_users")
+			.where({
+				handle: req.params.name,
+			})
+			.orWhere({
+				name: req.params.name,
+			})
+			.first()
+			.then(user => {
+				if (!user) {
+					throw new Error();
+				}
+				return knex("t_puzzles_permissions").insert({
+					permission_level: req.body.permission_level,
+					puzzle_id: req.params.id,
+					user_id: user.id,
+				});})
+			.then(() => res.sendStatus(204))
+			.catch(() => res.sendStatus(400));
 	});
 
 	router.put("/:id/accessors/:accessor_id", authentication.authenticate, (req, res) => {
@@ -88,15 +118,7 @@ module.exports = function (knex) {
 			.where({ puzzle_id: req.params.id,
 				user_id: req.params.accessor_id })
 			.delete()
-			.then(() => res.sendStatus(200));
-	});
-
-	router.delete("/:id/accessors/:accessor_id", authentication.authenticate, (req, res) => {
-		knex("t_puzzles_permissions")
-			.where({ puzzle_id: req.params.id,
-				user_id: req.params.accessor_id })
-			.delete()
-			.then(() => res.sendStatus(200));
+			.then(() => res.sendStatus(204));
 	});
 
 	return router;

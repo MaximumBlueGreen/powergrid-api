@@ -20,6 +20,7 @@
   "homepage": "https://github.com/MaximumBlueGreen/powergrid-api#readme",
   "dependencies": {
     "bluebird": "^3.5.3",
+    "bookshelf": "^0.14.2",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
