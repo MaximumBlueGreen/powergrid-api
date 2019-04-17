@@ -1,10 +1,12 @@
-const { knex, bookshelf } = require("./knexfile");
+
 require("dotenv").config();
 
 const express = require("express");
 const app = express();
 
 const cors = require("cors");
+
+const knex = require("knex")(require("./knexfile"));
 
 app.listen(process.env.PORT);
 app.use(express.json());
@@ -16,4 +18,4 @@ app.use("/clues", require("./routes/clues")(knex));
 app.use("/entries", require("./routes/entries")(knex));
 
 
-module.exports = { app, bookshelf, knex };
+module.exports = { app, knex };

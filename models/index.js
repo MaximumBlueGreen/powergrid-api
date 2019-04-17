@@ -1,4 +1,4 @@
-const { bookshelf } = require("../knexfile");
+const bookshelf = require("../bookshelf");
 
 const Entry = bookshelf.Model.extend({
 	tableName: "t_entries",
