@@ -42,6 +42,9 @@ module.exports = function (knex) {
 			.where("entry", "ilike", req.query.pattern || "%")
 			.where({ user_id: req.user_id })
 			.orderBy("score", "desc")
+			.orderBy("entry", "asc")
+			.offset(req.query.offset || 0)
+			.limit(req.query.limit || "ALL")
 			.then(entries => {
 				if (entries) {
 					res.json(entries);
