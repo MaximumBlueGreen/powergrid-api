@@ -66,9 +66,9 @@ module.exports = function (knex) {
 
 	router.delete("/:id", authentication.authenticate, (req, res) => {
 		knex("t_puzzles")
-			.where({ id: req.params.id })
+			.where({ creator_id: req.user_id, id: req.params.id  })
 			.delete()
-			.then(() => res.sendStatus(200));
+			.then(() => res.sendStatus(204));
 	});
 
 	router.get("/:id/accessors", authentication.authenticate, (req, res) => {
