@@ -65,7 +65,10 @@ module.exports = function (knex) {
 					token: generate({ id: user.id }),
 				});
 			})
-			.catch(() => res.sendStatus(404));
+			.catch((err) => {
+			    console.log(err);
+			    res.sendStatus(404)
+			});
 	});
 
 	return router;
