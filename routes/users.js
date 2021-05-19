@@ -66,8 +66,9 @@ module.exports = function (knex) {
 				});
 			})
 			.catch((err) => {
-			    console.log(err);
-			    res.sendStatus(404)
+				//eslint-disable-next-line
+				console.log(err);
+				res.sendStatus(404);
 			});
 	});
 
