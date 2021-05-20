@@ -59,7 +59,10 @@ module.exports = function (knex) {
 				email: req.body.email,
 			})
 			.first()
-			.tap(user => validate(req.body.password, user.salt, user.password))
+			.then(user => {
+				validate(req.body.password, user.salt, user.password);
+				return user;
+			})
 			.then(user => {
 				res.json({
 					token: generate({ id: user.id }),
