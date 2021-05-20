@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- 9.3.0
+  - node
 cache: npm
 deploy:
   provider: heroku
@@ -11,15 +11,15 @@ deploy:
     repo: MaximumBlueGreen/powergrid-api
     branch: develop
 services:
-- postgresql
+  - postgresql
 before_script:
-- psql -c "create database powergrid_travis;" -U postgres
-- knex migrate:latest
+  - psql -c "create database powergrid_travis;" -U postgres
+  - knex migrate:latest
 script:
-- npm test
-- npm run lint
+  - npm test
+  - npm run lint
 env:
-- NODE_ENV=test DATABASE_URL=postgres://localhost/powergrid_travis JWT_SECRET=SECRETSANTA
+  - NODE_ENV=test DATABASE_URL=postgres://localhost/powergrid_travis JWT_SECRET=SECRETSANTA
 branches:
   only:
-  - develop
+    - develop
