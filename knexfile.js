@@ -3,7 +3,10 @@ const path = require("path");
 
 module.exports = {
 	client: "pg",
-	connection: `${process.env.DATABASE_URL}?ssl=true`,
+	connection: { 
+		connectionString: process.env.DATABASE_URL,
+		ssl: { rejectUnauthorized: false },
+	},
 	migrations: {
 		directory: path.normalize(path.join(__dirname, "/migrations")),
 		tableName: "knex_migrations",
